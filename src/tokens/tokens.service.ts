@@ -61,4 +61,18 @@ export class TokensService {
             return e
         }
     }
+
+    async removeToken(refreshToken: string) {
+        const tokenData = await this.tokensRepository.delete({ refresh_token: refreshToken })
+        return tokenData
+    }
+
+    async findToken(refreshToken: string) {
+        const tokenData = await this.tokensRepository.findOne({
+            where: {
+                refresh_token: refreshToken
+            }
+        })
+        return tokenData
+    }
 }
