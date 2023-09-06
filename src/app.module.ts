@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { WishCardModule } from './wish-card/wish-card.module';
 import { UserModule } from './user/user.module';
 import { join } from 'path';
+import { TokensModule } from './tokens/tokens.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { join } from 'path';
     }),
     WishCardModule,
     UserModule,
+    TokensModule,
   ],
   controllers: [AppController],
   providers: [AppService],

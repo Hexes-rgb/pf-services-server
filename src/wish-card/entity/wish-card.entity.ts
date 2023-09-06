@@ -11,9 +11,9 @@ export class WishCard {
     @Column('text')
     description: string;
 
-    @Column('timestamp')
-    created_at: Timestamp;
+    // @Column('timestamp')
+    // created_at: Timestamp;
 
-    @Column('timestamp')
-    updated_at: Timestamp;
+    // @Column('timestamp')
+    // updated_at: Timestamp;
 }
