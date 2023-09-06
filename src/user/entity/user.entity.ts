@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Tokens } from "src/tokens/entity/tokens.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity({ name: 'user'})
 export class User {
@@ -16,6 +17,9 @@ export class User {
 
     @Column({ length: 255 })
     email: string;
+
+    @OneToOne(() => Tokens, (token) => token.id)
+    token: Tokens
 
     // @Column('timestamp')
     // created_at: Timestamp;

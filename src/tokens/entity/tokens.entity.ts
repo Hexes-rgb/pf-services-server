@@ -8,7 +8,7 @@ export class Tokens {
 
     @OneToOne(() => User, (user) => user.id)
     @JoinColumn({name: 'user_id'})
-    user_id: User
+    user: User
 
     @Column({length: 555})
     refresh_token: string

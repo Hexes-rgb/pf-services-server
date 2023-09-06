@@ -14,6 +14,6 @@ export class TokensController {
 
     @Post("save") 
      async save() {
-       await  this.tokenService.saveToken(8, 'a.dsadsda.f')
+       await  this.tokenService.saveToken(3, '-Y')
     }
 }
