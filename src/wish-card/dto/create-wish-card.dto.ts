@@ -1,4 +1,4 @@
-export class WishCardDto {
+export class CreateWishCardDto {
     title: string;
     description: string
 }
