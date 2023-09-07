@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import { TokenService } from 'src/token/token.service';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
@@ -40,8 +41,25 @@ export class UserService {
         }
     }
 
-    async login(email: string, password: string) {
-
+    async login(loginUserDto: LoginUserDto) {
+        const user = await this.userRepository.findOne({
+            where: {
+                email: loginUserDto.email
+            }
+        })
+        if (!user) {
+            throw new BadRequestException(`User with this email was not found`, { cause: new Error() })
+        }
+        const isPassEquel = await compare(loginUserDto.password, user.password)
+        if (!isPassEquel) {
+            throw new BadRequestException(`Incorrect password`, { cause: new Error() })
+        }
+        const tokens = await this.tokenService.generateToken({ ...user })
+        await this.tokenService.saveToken(user.id, tokens.refreshToken)
+        return {
+            ...tokens,
+            user,
+        }
     }
 
     async logout(refreshToken: string) {
