@@ -14,7 +14,7 @@ export class TokensController {
 
     @Post("save")
     async save() {
-        return await this.tokenService.saveToken(6, '6')
+        return await this.tokenService.saveToken(4, 'sdfadfdasfds')
     }
 
     @Delete()

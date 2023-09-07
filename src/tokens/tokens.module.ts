@@ -9,4 +9,4 @@ import { TokensController } from './tokens.controller';
   providers: [TokensService],
   controllers: [TokensController],
 })
-export class TokensModule {}
+export class TokensModule { }

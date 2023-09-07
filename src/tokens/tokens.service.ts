@@ -45,9 +45,10 @@ export class TokensService {
         try {
 
             const tokenData = await this.tokensRepository
-                .createQueryBuilder("tokens")
-                .where("tokens.user_id= :userId", { userId: userId })
-                .getOne()
+                .createQueryBuilder('tokens')
+                .leftJoinAndSelect('tokens.user', 'user')
+                .where('user.id = :userId', { userId })
+                .getOne();
             console.log(tokenData);
 
             if (tokenData) {

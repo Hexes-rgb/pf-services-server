@@ -1,7 +1,7 @@
 import { Tokens } from "src/tokens/entity/tokens.entity";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
-@Entity({ name: 'user'})
+@Entity({ name: 'user' })
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
@@ -18,7 +18,7 @@ export class User {
     @Column({ length: 255 })
     email: string;
 
-    @OneToOne(() => Tokens, (token) => token.id)
+    @OneToOne(type => Tokens, (token) => token.user)
     token: Tokens
 
     // @Column('timestamp')
