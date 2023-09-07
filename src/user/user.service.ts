@@ -63,11 +63,34 @@ export class UserService {
     }
 
     async logout(refreshToken: string) {
-
+        const token = await this.tokenService.removeToken(refreshToken)
+        return token
     }
 
-    async refresh(email: string, password: string) {
+    async refresh(refreshToken: string) {
+        // if (!refreshToken) {
+        //     throw new BadRequestException(`You are not authorized`, { cause: new Error() })
+        // }
+        // const userData = await this.tokenService.validateRefreshToken(refreshToken)
+        // console.log(userData);
 
+        // if (!userData.id) {
+        //     throw new BadRequestException(`You are not authorized`, { cause: new Error() })
+        // }
+
+        // const user = await this.userRepository.findOne({
+        //     where: {
+        //         id: userData.id
+        //     }
+        // })
+        // console.log(user);
+
+        // // const tokens = await this.tokenService.generateToken({ ...user })
+        // // await this.tokenService.saveToken(userData?.id, tokens.refreshToken)
+        // // return {
+        // //     ...tokens,
+        // //     user
+        // // }
     }
 
 

@@ -28,4 +28,26 @@ export class UserController {
         })
         return userData
     }
+
+    @Post('logout')
+    async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+        const { refreshToken } = req.cookies
+        const token = await this.userService.logout(refreshToken)
+        res.clearCookie('refreshToken')
+        return token
+    }
+
+
+    // @Post('refresh')
+    // async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    //     const { refreshToken } = req.cookies
+    //     const userData = await this.userService.refresh(refreshToken)
+    //     // const newRefreshToken = userData.refreshToken
+    //     // res.cookie("refreshToken", newRefreshToken, {
+    //     //     maxAge: 15 * 24 * 60 * 60 * 10000,
+    //     //     httpOnly: true,
+    //     // });
+    //     // res.clearCookie('refreshToken')
+    //     return userData
+    // }
 }
