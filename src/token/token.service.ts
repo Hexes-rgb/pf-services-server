@@ -3,27 +3,32 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Token } from './entity/token.entity';
 import { Repository } from 'typeorm';
-import { CreateTokenDto } from 'src/user/dto/create-token.dto';
+import { CreateTokenDto } from 'src/auth/dto/create-token.dto';
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class TokenService {
     constructor(@InjectRepository(Token) private readonly tokenRepository: Repository<Token>) { }
 
     generateToken(payload: CreateTokenDto) {
-        const accessToken = sign(payload, process.env.JWT_ACCESS_TOKEN, {
-            expiresIn: '30m'
-        })
-
-        const refreshToken = sign(payload, process.env.JWT_REFRESH_TOKEN, {
-            expiresIn: '15d'
-        })
-        return {
-            accessToken,
-            refreshToken
+        try{
+            const accessToken = sign(payload, process.env.JWT_ACCESS_TOKEN, {
+                expiresIn: '15m'
+            })
+    
+            const refreshToken = sign(payload, process.env.JWT_REFRESH_TOKEN, {
+                expiresIn: '15d'
+            })
+            return {
+                accessToken,
+                refreshToken
+            }
+        }catch(e){
+            return e
         }
     }
 
-    validateAccessToken(token: string) {
+    validateAccessToken(token: string): User {
         try {
             const userData = verify(token, process.env.JWT_ACCESS_TOKEN)
             return userData
@@ -61,17 +66,38 @@ export class TokenService {
         }
     }
 
-    async removeToken(refreshToken: string) {
-        const tokenData = await this.tokenRepository.delete({ refresh_token: refreshToken })
-        return tokenData
+    async removeToken(refreshToken: string | undefined) {
+        try{
+            const tokenData = await this.tokenRepository.delete({ refresh_token: refreshToken })
+            return tokenData
+        }catch(e){
+            return e
+        }
     }
 
-    async findToken(refreshToken: string) {
-        const tokenData = await this.tokenRepository.findOne({
-            where: {
-                refresh_token: refreshToken
-            }
-        })
-        return tokenData
+    async findTokenByUserId(userId: number) {
+        try{
+            const tokenData = await this.tokenRepository.findOne({
+                where: {
+                    user: userId
+                }
+            })
+            return tokenData
+        }catch(e){
+            return e
+        }
+    }
+
+    async findTokenByName(refresh_token: string) {
+        try{
+            const tokenData = await this.tokenRepository.findOne({
+                where: {
+                    refresh_token: refresh_token
+                }
+            })
+            return tokenData
+        }catch(e){
+            return e
+        }
     }
 }
