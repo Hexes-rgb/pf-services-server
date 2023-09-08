@@ -7,6 +7,7 @@ import { WishCardModule } from './wish-card/wish-card.module';
 import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { TokenModule } from './token/token.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TokenModule } from './token/token.module';
     WishCardModule,
     UserModule,
     TokenModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

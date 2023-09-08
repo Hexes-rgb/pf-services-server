@@ -13,7 +13,7 @@ export class UserService {
 
     async registration(dto: CreateUserDto) {
         try {
-            const { email, firstName, lastName, password } = dto
+            const { email, firstName, lastName, password, role} = dto
             const hashPassword = await hash(password, 3)
             const candidate = await this.userRepository.findOne({
                 where: {
@@ -27,7 +27,8 @@ export class UserService {
                 first_name: firstName,
                 last_name: lastName,
                 password: hashPassword,
-                email
+                email,
+                role: role ? role : 2
             })
             await this.userRepository.save(user)
             const tokens = await this.tokenService.generateToken({ ...user })
@@ -45,7 +46,8 @@ export class UserService {
         const user = await this.userRepository.findOne({
             where: {
                 email: loginUserDto.email
-            }
+            },
+            relations: ['role']
         })
         if (!user) {
             throw new BadRequestException(`User with this email was not found`, { cause: new Error() })

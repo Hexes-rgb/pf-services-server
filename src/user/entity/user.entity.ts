@@ -1,5 +1,6 @@
+import { Role } from "src/role/entity/role.entity";
 import { Token } from "src/token/entity/token.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity({ name: 'user' })
 export class User {
@@ -20,6 +21,10 @@ export class User {
 
     @OneToOne(type => Token, (token) => token.user)
     token: string
+
+    @ManyToOne(type => Role, (role) => role.users)
+    @JoinColumn({ name: 'role_id' })
+    role: number
 
     @Column({type: 'timestamp', nullable: true})
     last_login: Timestamp;
