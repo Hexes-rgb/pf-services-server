@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,6 +9,9 @@ import { join } from 'path';
 import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
+import { AuthMiddleware } from './auth/auth.middleware';
+import { AuthController } from './auth/auth.controller';
+import { WishCardController } from './wish-card/wish-card.controller';
 
 @Module({
   imports: [
@@ -36,4 +39,10 @@ import { RoleModule } from './role/role.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes(WishCardController);
+  }
+}

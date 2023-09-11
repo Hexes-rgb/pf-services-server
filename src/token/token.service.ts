@@ -11,11 +11,11 @@ export class TokenService {
     constructor(@InjectRepository(Token) private readonly tokenRepository: Repository<Token>) { }
 
     generateToken(payload: CreateTokenDto) {
-        try{
+        try {
             const accessToken = sign(payload, process.env.JWT_ACCESS_TOKEN, {
-                expiresIn: '15m'
+                expiresIn: '30m'
             })
-    
+
             const refreshToken = sign(payload, process.env.JWT_REFRESH_TOKEN, {
                 expiresIn: '15d'
             })
@@ -23,7 +23,7 @@ export class TokenService {
                 accessToken,
                 refreshToken
             }
-        }catch(e){
+        } catch (e) {
             return e
         }
     }
@@ -67,36 +67,36 @@ export class TokenService {
     }
 
     async removeToken(refreshToken: string | undefined) {
-        try{
+        try {
             const tokenData = await this.tokenRepository.delete({ refresh_token: refreshToken })
             return tokenData
-        }catch(e){
+        } catch (e) {
             return e
         }
     }
 
     async findTokenByUserId(userId: number) {
-        try{
+        try {
             const tokenData = await this.tokenRepository.findOne({
                 where: {
                     user: userId
                 }
             })
             return tokenData
-        }catch(e){
+        } catch (e) {
             return e
         }
     }
 
     async findTokenByName(refresh_token: string) {
-        try{
+        try {
             const tokenData = await this.tokenRepository.findOne({
                 where: {
                     refresh_token: refresh_token
                 }
             })
             return tokenData
-        }catch(e){
+        } catch (e) {
             return e
         }
     }
