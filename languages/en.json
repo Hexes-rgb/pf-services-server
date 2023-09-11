@@ -1,10 +1,8 @@
 {
-    "auth":{
+    "auth": {
         "invalidEmail": "Invalid email. Please provide a valid email address.",
         "invalidPassword": "Invalid password. Password must be a string between 6 and 20 characters.",
         "emailRequired": "Email is required.",
         "passwordRequired": "Password is required."
-
     }
-  }
-  
+}

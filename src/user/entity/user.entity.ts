@@ -1,6 +1,7 @@
 import { Role } from "src/role/entity/role.entity";
 import { Token } from "src/token/entity/token.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { WishCard } from "src/wish-card/entity/wish-card.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity({ name: 'user' })
 export class User {
@@ -22,10 +23,13 @@ export class User {
     @OneToOne(type => Token, (token) => token.user)
     token: string
 
+    @OneToMany(type => WishCard, (card) => card.user_id)
+    wish_card: WishCard[]
+
     @ManyToOne(type => Role, (role) => role.users)
     @JoinColumn({ name: 'role_id' })
     role: number
 
-    @Column({type: 'timestamp', nullable: true})
+    @Column({ type: 'timestamp', nullable: true })
     last_login: Timestamp;
 }
