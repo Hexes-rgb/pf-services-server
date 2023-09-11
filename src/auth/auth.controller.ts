@@ -1,14 +1,17 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UsePipes } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 import { LoginUserDto } from 'src/auth/dto/login-user.dto';
+import { RegistrationPipe } from './registration.pipe';
+import { LoginPipe } from './login.pipe';
 
 @Controller('auth')
 export class AuthController {
     constructor(private readonly userService: AuthService) { }
 
     @Post('registration')
+    @UsePipes(new RegistrationPipe())
     async registration(@Body() createUserDto: CreateUserDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const userData = await this.userService.registration(createUserDto);
         res.cookie("accessToken", userData.accessToken, {
@@ -19,7 +22,7 @@ export class AuthController {
     }
 
     @Post('login')
-
+    @UsePipes(new LoginPipe())
     async login(@Body() loginUserDto: LoginUserDto, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
         const userData = await this.userService.login(loginUserDto)
         res.cookie("accessToken", userData.accessToken, {
