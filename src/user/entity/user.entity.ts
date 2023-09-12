@@ -1,6 +1,7 @@
 import { Role } from "src/role/entity/role.entity";
 import { Token } from "src/token/entity/token.entity";
 import { WishCard } from "src/wish-card/entity/wish-card.entity";
+import { UserActivity } from "src/user-activity/entity/user-activity.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity({ name: 'user' })
@@ -30,6 +31,9 @@ export class User {
     @JoinColumn({ name: 'role_id' })
     role: number
 
-    @Column({ type: 'timestamp', nullable: true })
+    @OneToMany(() => UserActivity, (userActivity) => userActivity.user)
+    userActivities: number[];
+
+    @Column({type: 'timestamp', nullable: true})
     last_login: Timestamp;
 }
