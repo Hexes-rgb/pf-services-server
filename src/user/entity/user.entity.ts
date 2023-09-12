@@ -1,6 +1,7 @@
 import { Role } from "src/role/entity/role.entity";
 import { Token } from "src/token/entity/token.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { UserActivity } from "src/user-activity/entity/user-activity.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 
 @Entity({ name: 'user' })
 export class User {
@@ -25,6 +26,9 @@ export class User {
     @ManyToOne(type => Role, (role) => role.users)
     @JoinColumn({ name: 'role_id' })
     role: number
+
+    @OneToMany(() => UserActivity, (userActivity) => userActivity.user)
+    userActivities: number[];
 
     @Column({type: 'timestamp', nullable: true})
     last_login: Timestamp;

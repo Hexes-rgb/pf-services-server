@@ -12,6 +12,8 @@ import { RoleModule } from './role/role.module';
 import { AuthMiddleware } from './auth/auth.middleware';
 import { AuthController } from './auth/auth.controller';
 import { WishCardController } from './wish-card/wish-card.controller';
+import { ActivityModule } from './activity/activity.module';
+import { UserActivityModule } from './user-activity/user-activity.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { WishCardController } from './wish-card/wish-card.controller';
     TokenModule,
     AuthModule,
     RoleModule,
+    ActivityModule,
+    UserActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
