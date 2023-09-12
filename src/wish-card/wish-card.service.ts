@@ -9,10 +9,10 @@ import { decode } from 'jsonwebtoken'
 export class WishCardService {
     constructor(@InjectRepository(WishCard) private readonly wishCardRepository: Repository<WishCard>) { }
 
-    async createWishCard(dto: CreateWishCardDto, token: string | undefined) {
+    async createWishCard(dto: CreateWishCardDto, userId: number) {
         try {
 
-            const userId = decode(token, process.env.JWT_ACCESS_TOKEN).id
+            // const userId = decode(token, process.env.JWT_ACCESS_TOKEN).id
             dto.user_id = userId
             const wishCard = await this.wishCardRepository.create({
                 description: dto.description,
@@ -29,12 +29,8 @@ export class WishCardService {
     }
 
 
-    async changeWishCard(cardId: number, token: string | undefined, wishCardDto) {
+    async changeWishCard(cardId: number, userId: number | undefined, wishCardDto) {
         try {
-
-            const userId = decode(token, process.env.JWT_ACCESS_TOKEN).id
-            console.log(cardId);
-
             const wishCard = await this.wishCardRepository.findOne({
                 where: {
                     id: cardId,
@@ -55,6 +51,14 @@ export class WishCardService {
     }
 
     async deleteWishCard(id: number) {
+        const wishCard = await this.wishCardRepository.findOne({
+            where: {
+                id: id,
+            }
+        })
+        if (!wishCard) {
+            throw new BadRequestException('Wish card not found')
+        }
         return await this.wishCardRepository.delete({ id })
     }
 }

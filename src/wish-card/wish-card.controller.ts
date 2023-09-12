@@ -7,18 +7,16 @@ import { Request, Response } from 'express';
 export class WishCardController {
     constructor(private readonly wishCardService: WishCardService) { }
 
-    @Post()
+    @Post('create')
     createWishCard(@Body() wishCardDto: CreateWishCardDto, @Req() req: Request) {
-        const authorization = req.headers['authorization']
-        const token = authorization?.split(' ')[1]
-        return this.wishCardService.createWishCard(wishCardDto, token)
+        const user = req['user']
+        return this.wishCardService.createWishCard(wishCardDto, user.id)
     }
 
     @Put('change/:id')
     async changeWishCard(@Param() param, @Body() wishCardDto: CreateWishCardDto, @Req() req: Request) {
-        const authorization = req.headers['authorization']
-        const token = authorization?.split(' ')[1]
-        return await this.wishCardService.changeWishCard(param.id, token, wishCardDto)
+        const user = req['user']
+        return await this.wishCardService.changeWishCard(param.id, user.id, wishCardDto)
     }
 
     @Delete('delete/:id')

@@ -19,8 +19,12 @@ export class AuthMiddleware implements NestMiddleware {
       const newToken = sign(user, process.env.JWT_ACCESS_TOKEN, {
         expiresIn: '30m'
       })
+
       res.setHeader('Authorization', newToken)
+
     }
+    req["user"] = decode(token, process.env.JWT_ACCESS_TOKEN)
+
     next();
   }
 }
