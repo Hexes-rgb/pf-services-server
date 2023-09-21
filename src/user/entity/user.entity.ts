@@ -22,18 +22,18 @@ export class User {
     email: string;
 
     @OneToOne(type => Token, (token) => token.user)
-    token: string
+    token: Token
 
-    @OneToMany(type => WishCard, (card) => card.user_id)
+    @OneToMany(type => WishCard, (card) => card.user)
     wish_card: WishCard[]
 
     @ManyToOne(type => Role, (role) => role.users)
     @JoinColumn({ name: 'role_id' })
-    role: number
+    role: Role
 
     @OneToMany(() => UserActivity, (userActivity) => userActivity.user)
-    userActivities: number[];
+    userActivities: UserActivity[];
 
     @Column({type: 'timestamp', nullable: true})
-    last_login: Timestamp;
+    last_login: string;
 }

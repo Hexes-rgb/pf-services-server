@@ -45,7 +45,7 @@ export class TokenService {
             return e
         }
     }
-    async saveToken(userId: number, refreshToken: string) {
+    async saveToken(userId: User, refreshToken: string) {
         try {
 
             const tokenData = await this.tokenRepository
@@ -75,11 +75,11 @@ export class TokenService {
         }
     }
 
-    async findTokenByUserId(userId: number) {
+    async findTokenByUserId(user: User) {
         try {
             const tokenData = await this.tokenRepository.findOne({
                 where: {
-                    user: userId
+                    user: user
                 }
             })
             return tokenData

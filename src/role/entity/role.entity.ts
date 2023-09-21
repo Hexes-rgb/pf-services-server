@@ -10,5 +10,5 @@ export class Role {
     name: string;
 
     @OneToMany(type => User, (user) => user.role)
-    users: number[]
+    users: User[]
 }

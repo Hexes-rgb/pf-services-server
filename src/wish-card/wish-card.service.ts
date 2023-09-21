@@ -4,20 +4,21 @@ import { WishCard } from './entity/wish-card.entity';
 import { Repository } from 'typeorm';
 import { CreateWishCardDto } from './dto/create-wish-card.dto';
 import { decode } from 'jsonwebtoken'
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class WishCardService {
     constructor(@InjectRepository(WishCard) private readonly wishCardRepository: Repository<WishCard>) { }
 
-    async createWishCard(dto: CreateWishCardDto, userId: number) {
+    async createWishCard(dto: CreateWishCardDto, userId: User) {
         try {
 
             // const userId = decode(token, process.env.JWT_ACCESS_TOKEN).id
-            dto.user_id = userId
+            // dto.user_id = userId
             const wishCard = await this.wishCardRepository.create({
                 description: dto.description,
                 title: dto.title,
-                user_id: userId
+                user: userId
             })
             if (!dto.title || !dto.description) {
                 throw new BadRequestException('Wish card title or description not provided', { cause: new Error() })
@@ -29,19 +30,19 @@ export class WishCardService {
     }
 
 
-    async changeWishCard(cardId: number, userId: number | undefined, wishCardDto) {
+    async changeWishCard(cardId: number, user: User | undefined, wishCardDto) {
         try {
             const wishCard = await this.wishCardRepository.findOne({
                 where: {
                     id: cardId,
-                    user_id: userId
+                    user: user
                 }
             })
             const newWishCard = {
                 id: wishCard?.id,
                 description: wishCardDto.description,
                 title: wishCardDto.title,
-                user_id: wishCard?.user_id
+                user_id: wishCard?.user
             }
             const result = await this.wishCardRepository.save(newWishCard)
             return result

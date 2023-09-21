@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Param, Post, Put, Req, Res } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
+import { Request, Response } from 'express';
 
 @Controller('activity')
 export class ActivityController {

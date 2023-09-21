@@ -9,18 +9,18 @@ export class UserActivity {
     
     @ManyToOne(() => User, (user) => user.userActivities)
     @JoinColumn({name: 'user_id'})
-    user: number;
+    user: User;
     
     @ManyToOne(() => Activity, (activity) => activity.userActivities)
     @JoinColumn({name: 'activity_id'})
-    activity: number;
+    activity: Activity;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     description: string;
 
     @Column({ type: 'timestamp' })
-    activity_start: Timestamp;
+    activity_start: string;
     
     @Column({ type: 'timestamp' })
-    activity_end: Timestamp;
+    activity_end: string;
 }

@@ -13,12 +13,12 @@ export class WishCard {
     description: string;
 
     @Column({ type: 'timestamp', nullable: true })
-    created_at: Timestamp;
+    created_at: string;
 
     @Column({ type: 'timestamp', nullable: true })
-    updated_at: Timestamp;
+    updated_at: string;
 
     @ManyToOne(type => User, (user) => user.wish_card)
     @JoinColumn({ name: 'user_id' })
-    user_id: number
+    user: User
 }

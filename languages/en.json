@@ -4,5 +4,12 @@
         "invalidPassword": "Invalid password. Password must be a string between 6 and 20 characters.",
         "emailRequired": "Email is required.",
         "passwordRequired": "Password is required."
+    },
+    "user_activity": {
+        "activityStartIsRequired": "Activity start datetime is required.",
+        "activityEndIsRequired": "Activity end datetime is required.",
+        "userIsRequired": "User is required.",
+        "activityIsRequired": "Activity is required."
+
     }
 }
