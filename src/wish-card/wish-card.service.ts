@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WishCard } from './entity/wish-card.entity';
 import { Repository } from 'typeorm';
 import { CreateWishCardDto } from './dto/create-wish-card.dto';
-import { decode } from 'jsonwebtoken'
 
 @Injectable()
 export class WishCardService {
@@ -11,9 +10,6 @@ export class WishCardService {
 
     async createWishCard(dto: CreateWishCardDto, userId: number) {
         try {
-
-            // const userId = decode(token, process.env.JWT_ACCESS_TOKEN).id
-            dto.user_id = userId
             const wishCard = await this.wishCardRepository.create({
                 description: dto.description,
                 title: dto.title,
@@ -29,7 +25,7 @@ export class WishCardService {
     }
 
 
-    async changeWishCard(cardId: number, userId: number | undefined, wishCardDto) {
+    async changeWishCard(cardId: number, userId: number | undefined, wishCardDto: CreateWishCardDto) {
         try {
             const wishCard = await this.wishCardRepository.findOne({
                 where: {

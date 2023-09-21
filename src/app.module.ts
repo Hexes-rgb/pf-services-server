@@ -14,6 +14,8 @@ import { AuthController } from './auth/auth.controller';
 import { WishCardController } from './wish-card/wish-card.controller';
 import { ActivityModule } from './activity/activity.module';
 import { UserActivityModule } from './user-activity/user-activity.module';
+import { WorkingSkillController } from './working-skill/working-skill.controller';
+import { WorkingSkillModule } from './working-skill/working-skill.module';
 
 @Module({
   imports: [
@@ -39,6 +41,7 @@ import { UserActivityModule } from './user-activity/user-activity.module';
     RoleModule,
     ActivityModule,
     UserActivityModule,
+    WorkingSkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -47,6 +50,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes(WishCardController);
+      .forRoutes(WishCardController, WorkingSkillController);
   }
 }
