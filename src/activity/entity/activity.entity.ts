@@ -10,5 +10,5 @@ export class Activity {
     name: string;
 
     @OneToMany(() => UserActivity, (userActivity) => userActivity.user)
-    userActivities: number[];
+    userActivities: UserActivity[];
 }

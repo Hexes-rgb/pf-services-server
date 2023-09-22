@@ -10,12 +10,13 @@ import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
 import { RoleModule } from './role/role.module';
 import { AuthMiddleware } from './auth/auth.middleware';
-import { AuthController } from './auth/auth.controller';
 import { WishCardController } from './wish-card/wish-card.controller';
 import { ActivityModule } from './activity/activity.module';
 import { UserActivityModule } from './user-activity/user-activity.module';
 import { WorkingSkillController } from './working-skill/working-skill.controller';
 import { WorkingSkillModule } from './working-skill/working-skill.module';
+import { UserActivityController } from './user-activity/user-activity.controller';
+import { ActivityController } from './activity/activity.controller';
 
 @Module({
   imports: [
@@ -50,6 +51,6 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes(WishCardController, WorkingSkillController);
+      .forRoutes(WishCardController, UserActivityController, ActivityController, WorkingSkillController);
   }
 }

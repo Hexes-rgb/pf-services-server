@@ -28,11 +28,11 @@ export class AuthService {
                 last_name: lastName,
                 password: hashPassword,
                 email,
-                role: role ? role : 2
+                role: role
             })
             await this.userRepository.save(user)
             const tokens = await this.tokenService.generateToken({ ...user })
-            await this.tokenService.saveToken(user.id, tokens.refreshToken)
+            await this.tokenService.saveToken(user, tokens.refreshToken)
             return {
                 accessToken: tokens.accessToken,
                 user
@@ -57,7 +57,7 @@ export class AuthService {
             throw new BadRequestException(`Incorrect password`, { cause: new Error() })
         }
         const tokens = await this.tokenService.generateToken({ ...user })
-        await this.tokenService.saveToken(user.id, tokens.refreshToken)
+        await this.tokenService.saveToken(user, tokens.refreshToken)
         return {
             accessToken: tokens.accessToken,
             user,
@@ -68,7 +68,7 @@ export class AuthService {
         try{
             const userData = await this.tokenService.validateAccessToken(accessToken)
             
-            const token = await this.tokenService.findTokenByUserId(userData.id);
+            const token = await this.tokenService.findTokenByUserId(userData);
             
             const result = await this.tokenService.removeToken(token?.refresh_token);
             return result

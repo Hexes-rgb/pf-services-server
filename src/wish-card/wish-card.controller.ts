@@ -10,7 +10,7 @@ export class WishCardController {
     @Post('create')
     createWishCard(@Body() wishCardDto: CreateWishCardDto, @Req() req: Request) {
         const user = req['user']
-        return this.wishCardService.createWishCard(wishCardDto, user.id)
+        return this.wishCardService.createWishCard(wishCardDto, user)
     }
 
     @Put('change/:id')

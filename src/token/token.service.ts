@@ -2,7 +2,7 @@ import { sign, verify } from 'jsonwebtoken'
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Token } from './entity/token.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { CreateTokenDto } from 'src/auth/dto/create-token.dto';
 import { User } from 'src/user/entity/user.entity';
 
@@ -45,7 +45,7 @@ export class TokenService {
             return e
         }
     }
-    async saveToken(userId: number, refreshToken: string) {
+    async saveToken(userId: User, refreshToken: string) {
         try {
 
             const tokenData = await this.tokenRepository
@@ -75,11 +75,11 @@ export class TokenService {
         }
     }
 
-    async findTokenByUserId(userId: number) {
-        try {
+    async findTokenByUserId(user: User) {
+        try {            
             const tokenData = await this.tokenRepository.findOne({
                 where: {
-                    user: userId
+                    user: Equal(user.id)
                 }
             })
             return tokenData

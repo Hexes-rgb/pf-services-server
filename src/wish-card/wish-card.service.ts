@@ -1,19 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WishCard } from './entity/wish-card.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { CreateWishCardDto } from './dto/create-wish-card.dto';
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class WishCardService {
     constructor(@InjectRepository(WishCard) private readonly wishCardRepository: Repository<WishCard>) { }
 
-    async createWishCard(dto: CreateWishCardDto, userId: number) {
+    async createWishCard(dto: CreateWishCardDto, userId: User) {
         try {
             const wishCard = await this.wishCardRepository.create({
                 description: dto.description,
                 title: dto.title,
-                user_id: userId
+                user: userId
             })
             if (!dto.title || !dto.description) {
                 throw new BadRequestException('Wish card title or description not provided', { cause: new Error() })
@@ -25,19 +26,19 @@ export class WishCardService {
     }
 
 
-    async changeWishCard(cardId: number, userId: number | undefined, wishCardDto: CreateWishCardDto) {
+    async changeWishCard(cardId: number, user: User | undefined, wishCardDto) {
         try {
             const wishCard = await this.wishCardRepository.findOne({
                 where: {
                     id: cardId,
-                    user_id: userId
+                    user: Equal(user)
                 }
             })
             const newWishCard = {
                 id: wishCard?.id,
                 description: wishCardDto.description,
                 title: wishCardDto.title,
-                user_id: wishCard?.user_id
+                user_id: wishCard?.user
             }
             const result = await this.wishCardRepository.save(newWishCard)
             return result
